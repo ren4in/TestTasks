@@ -10,7 +10,11 @@ namespace StringCompression
     {
         public static string Compress(string input)
         {
-            if (string.IsNullOrEmpty(input)) return "";
+            if (string.IsNullOrEmpty(input))
+                return "";
+
+            if (input.Any(c => !char.IsLetter(c) || !IsLatinLetter(c)))
+                throw new ArgumentException("Строка должна содержать только латинские буквы (a-z, A-Z).");
 
             var sb = new StringBuilder();
             char currentChar = input[0];
@@ -57,6 +61,11 @@ namespace StringCompression
             }
 
             return sb.ToString();
+        }
+
+        private static bool IsLatinLetter(char c)
+        {
+            return (c >= 'a' && c <= 'z');
         }
     }
 

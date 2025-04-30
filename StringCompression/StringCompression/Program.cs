@@ -17,15 +17,30 @@ class Program
             switch (choice)
             {
                 case "1":
-                    Console.Write("Введите строку для сжатия: ");
+                    Console.Write("Введите строку для сжатия (только строчные латинские буквы): ");
                     string inputToCompress = Console.ReadLine();
-                    string compressed = StringCompressor.Compress(inputToCompress);
-                    Console.WriteLine($"Сжатая строка: {compressed}");
+
+                    try
+                    {
+                        string compressed = StringCompressor.Compress(inputToCompress);
+                        Console.WriteLine($"Сжатая строка: {compressed}");
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine($"Ошибка: {ex.Message}");
+                    }
                     break;
 
                 case "2":
                     Console.Write("Введите строку для распаковки: ");
                     string inputToDecompress = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(inputToDecompress))
+                    {
+                        Console.WriteLine("Ошибка: строка не должна быть пустой.");
+                        break;
+                    }
+
                     string decompressed = StringCompressor.Decompress(inputToDecompress);
                     Console.WriteLine($"Распакованная строка: {decompressed}");
                     break;
